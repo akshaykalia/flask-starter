@@ -53,14 +53,14 @@ services:
       shipyard.route: "/"
     image: kennethreitz/httpbin:latest
     port:
-      - "80"
+      - '80'
 
   httpbin2:
     labels:
       shipyard.route: "/"
     image: kennethreitz/httpbin:latest
     port:
-      - "80"
+      - '80'
 
 volumes:
   postgres:
