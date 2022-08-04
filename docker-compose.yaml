@@ -47,6 +47,20 @@ services:
     image: 'redis:5.0-alpine'
     ports:
       - '6379'
+      
+  httpbin1:
+    labels:
+      shipyard.route: "/"
+    image: kennethreitz/httpbin:latest
+    port:
+      - "80"
+
+  httpbin2:
+    labels:
+      shipyard.route: "/"
+    image: kennethreitz/httpbin:latest
+    port:
+      - "80"
 
 volumes:
   postgres:
