@@ -52,14 +52,14 @@ services:
     labels:
       shipyard.route: "/"
     image: kennethreitz/httpbin:latest
-    port:
+    ports:
       - '80'
 
   httpbin2:
     labels:
       shipyard.route: "/"
     image: kennethreitz/httpbin:latest
-    port:
+    ports:
       - '80'
 
 volumes:
