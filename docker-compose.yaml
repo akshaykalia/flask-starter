@@ -48,6 +48,19 @@ services:
       - './filesystem/entrypoints:/entrypoints:ro'
       - './migrations:/srv/migrations'
       - './src:/srv/src:ro'
+      
+  hello_cron:
+    labels:
+      shipyard.job: true
+      shipyard.job.schedule: '*/2 * * * *'
+      shipyard.job.restartPolicy: Never
+      shipyard.job.backoffLimit: 2
+      shipyard.job.activeDeadlineSeconds: 60
+      shipyard.job.successfulJobsHistoryLimit: 5
+      shipyard.job.failedJobsHistoryLimit: 3
+      shipyard.job.concurrencyPolicy: Forbid
+    image: busybox
+    command: 'echo "Hello World"'
 
   postgres:
     image: 'postgres:9.6-alpine'
