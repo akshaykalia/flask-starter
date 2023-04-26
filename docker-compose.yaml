@@ -10,8 +10,7 @@ services:
       - './filesystem/entrypoints:/entrypoints:ro'
 
   web:
-    extends:
-      service: base
+    extends: base
     labels:
       shipyard.route: '/'
     environment:
