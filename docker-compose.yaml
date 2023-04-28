@@ -10,6 +10,8 @@ services:
       DATABASE_URL: 'postgres://obscure-user:obscure-password@postgres/app'
       DEV: ${DEV}
       FLASK_DEBUG: '1'
+      APP_WIDE: ${appwide}
+      WEB_WIDE: ${app_web-svc}
     volumes:
       - './filesystem/entrypoints:/entrypoints:ro'
       - './migrations:/srv/migrations'
@@ -25,6 +27,8 @@ services:
       DATABASE_URL: 'postgres://obscure-user:obscure-password@postgres/app'
       DEV: ${DEV}
       FLASK_DEBUG: '1'
+      APP_WIDE: ${appwide}
+      WEB_WIDE: ${app_web-svc}
     command: '/entrypoints/worker.sh'
     volumes:
       - './filesystem/entrypoints:/entrypoints:ro'
