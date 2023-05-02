@@ -37,7 +37,7 @@ services:
       - './migrations:/srv/migrations'
       - './src:/srv/src:ro'
       
-  init-job:
+  init-job-very-long-name-you-will-not-believe-how-long-this-is:
     labels:
       shipyard.before: 'poetry run flask db upgrade'
       shipyard.job: True
