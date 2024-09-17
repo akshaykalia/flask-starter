@@ -10,6 +10,10 @@ services:
       DATABASE_URL: 'postgres://obscure-user:obscure-password@postgres/app'
       DEV: ${DEV}
       FLASK_DEBUG: '1'
+      APP_WIDE: ${appwide}
+      WEB_WIDE: ${app_web-svc}
+      appwide: 'test'
+      app_web-svc: 'testvalue'
     volumes:
       - './filesystem/entrypoints:/entrypoints:ro'
       - './migrations:/srv/migrations'
@@ -25,11 +29,43 @@ services:
       DATABASE_URL: 'postgres://obscure-user:obscure-password@postgres/app'
       DEV: ${DEV}
       FLASK_DEBUG: '1'
+      APP_WIDE: ${appwide}
+      WEB_WIDE: ${app_web-svc}
     command: '/entrypoints/worker.sh'
     volumes:
       - './filesystem/entrypoints:/entrypoints:ro'
       - './migrations:/srv/migrations'
       - './src:/srv/src:ro'
+      
+  init-job:
+    labels:
+      shipyard.before: 'poetry run flask db upgrade'
+      shipyard.job: True
+    build: '.'
+    environment:
+      DATABASE_URL: 'postgres://obscure-user:obscure-password@postgres/app'
+      DEV: ${DEV}
+      FLASK_DEBUG: '1'
+    command: 'echo "Hello" && ls'
+    depends_on:
+      - postgres
+    volumes:
+      - './filesystem/entrypoints:/entrypoints:ro'
+      - './migrations:/srv/migrations'
+      - './src:/srv/src:ro'
+      
+  hello-cron:
+    labels:
+      shipyard.job: true
+      shipyard.job.schedule: '*/2 * * * *'
+      shipyard.job.restartPolicy: Never
+      shipyard.job.backoffLimit: 2
+      shipyard.job.activeDeadlineSeconds: 60
+      shipyard.job.successfulJobsHistoryLimit: 5
+      shipyard.job.failedJobsHistoryLimit: 3
+      shipyard.job.concurrencyPolicy: Forbid
+    image: busybox
+    command: 'echo "Hello World"'
 
   postgres:
     image: 'postgres:9.6-alpine'
